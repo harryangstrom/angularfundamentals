@@ -12,25 +12,7 @@ export class AppComponent implements OnInit{
 
   }
   ngOnInit() {
-    this.GitSearchService.gitSearch('typescript')
-      .then((response) => {
-        //console.log("r: ", response);
-        alert("Total Libraries Found: " + response.total_count);
-      }, (error) => {
-        //console.log("e: ", error);
-        alert("Error: " + error.statusText);
-      }
-    )
 
-    this.GitSearchService.gitSearchUsers('harryangstrom')
-    .then((response) => {
-      console.log("r: ", response);
-      alert("Total Users Found: " + response.total_count);
-    }, (error) => {
-      //console.log("e: ", error);
-      alert("Error: " + error.statusText);
-    }
-  )
   }
   title = 'GitHub Browser';
 }
