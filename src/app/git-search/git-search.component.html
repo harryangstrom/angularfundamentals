@@ -1,16 +1,23 @@
+<input name="query" placeholder="Enter Search Here" [(ngModel)]="searchQuery"/>
+<button (click)="gitSearch()">Submit</button>
 <div *ngIf="searchResults; else elseBlock">
-  <h3>Total Results: {{searchResults.total_count}}</h3>
-  <ul>
-    <li *ngFor="let result of searchResults.items">
-      <a [href]="result.html_url">
-        <img [src]="result.owner.avatar_url" />
-        <h4>{{ result.name }} {{ result.full_name }}
-          <br>
-          <small>by {{result.owner.login}}</small>
-        </h4>
-      </a>
-      <p>{{result.description}}</p>
-    </li>
-  </ul>
+  <div *ngIf="searchResults.total_count !== 0; else elseBlock2">
+    <h3 class="total">Total Results: {{searchResults.total_count}}</h3>
+    <ul class="list">
+      <li [ngClass]="{'silver': (i % 2 === 0), 'white': (i % 2 !== 0)}" class="list_item" *ngFor="let result of searchResults.items; index as i;">
+        <a [href]="result.html_url">
+          <img class="avatar" [src]="result.owner.avatar_url" />
+          <h4 class="title">{{ result.name }} {{ result.full_name }}
+            <small>by {{result.owner.login | uppercase}}</small>
+          </h4>
+        </a>
+        <p class="description">{{result.description}}</p>
+        <p>Created On: {{result.created_at | date:'fullDate'}}</p>
+      </li>
+    </ul>
+  </div>
 </div>
 <ng-template #elseBlock>Loading...</ng-template>
+<ng-template #elseBlock2>
+  <h2 class="title">No results...</h2>
+</ng-template>
