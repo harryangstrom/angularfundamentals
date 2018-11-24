@@ -14,6 +14,9 @@ const appRoutes: Routes = [
   { path: '',
     component: HomePageComponent
   },
+  { path: 'angularfundamentals',
+    component: HomePageComponent
+  },
   { path: 'search',
     redirectTo: '/search/angular',
     pathMatch: 'full'
