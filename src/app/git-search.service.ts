@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GitSearch } from './git-search';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GitUsers } from './git-users';
 //import 'rxjs/add/operator/toPromise';
 
@@ -10,18 +10,26 @@ import { GitUsers } from './git-users';
 })
 export class GitSearchService {
   cachedValues: Array<{ [query: string]: GitSearch }> = [];
+  private APIToken: string = "efc72f4f540097945fd58d56384826a12478f357";
+
   
   constructor(private http: HttpClient) {
     
    }
 
-  gitSearch = (query: string): Promise<GitSearch> => {
+  gitSearch = (query: string, page: number): Promise<GitSearch> => {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'token ' + this.APIToken;
+      })
+    };
     let promise = new Promise<GitSearch>((resolve, reject) => {
       if (this.cachedValues[query]) {
         resolve(this.cachedValues[query]);
       }
       else {
-        this.http.get('https://api.github.com/search/repositories?q=' + query)
+        query = query + "&page=" + page.toString();
+        this.http.get('https://api.github.com/search/repositories?q=' + query, httpOptions)
           .toPromise()
           .then( (response) => {
             console.log(response);

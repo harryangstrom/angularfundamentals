@@ -1,6 +1,10 @@
 .total {
   font-size:24px;
 }
+.many_results {
+  font-size:16px;
+  color: red;
+}
 .list {
   list-style-type: none;
 }

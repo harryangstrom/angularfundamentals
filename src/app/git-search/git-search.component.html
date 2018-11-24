@@ -1,10 +1,13 @@
-<h3>{{title}} - {{displayQuery}}</h3>
+<h3>{{title}} - {{displayQuery | uppercase}} - Page: {{page}}</h3>
 <form (keyup) = "keyUpFunction($event)">
   <input name="query" placeholder="Enter Search Here" [(ngModel)]="searchQuery"/>
 </form>
 <button (click)="sendQuery()">Submit</button>
 <div *ngIf="searchResults; else elseBlock">
+    <button (click)="previous()" *ngIf="page !== 1">Previous</button>
+    <button (click)="next()" *ngIf="nextPage">Next</button>
   <div *ngIf="searchResults.total_count !== 0; else elseBlock2">
+    <p class="many_results" *ngIf="searchResults.total_count > 1000">Many results. Please, restrict your search.</p>
     <h3 class="total">Total Results: {{searchResults.total_count}}</h3>
     <ul class="list">
       <li [ngClass]="{'silver': (i % 2 === 0), 'white': (i % 2 !== 0)}" class="list_item" *ngFor="let result of searchResults.items; index as i;">
@@ -19,6 +22,8 @@
       </li>
     </ul>
   </div>
+  <button (click)="previous()" *ngIf="page !== 1">Previous</button>
+  <button (click)="next()" *ngIf="nextPage">Next</button>
 </div>
 <ng-template #elseBlock>Loading...</ng-template>
 <ng-template #elseBlock2>
