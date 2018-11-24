@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { GitUsers } from '../git-users';
 import { GitSearchService } from '../git-search.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 @Component({
   selector: 'app-git-search-users',
   templateUrl: './git-search-users.component.html',
+  encapsulation: ViewEncapsulation.ShadowDom,
   styleUrls: ['./git-search-users.component.css']
 })
 export class GitSearchUsersComponent implements OnInit {
