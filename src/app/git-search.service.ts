@@ -17,12 +17,13 @@ export class GitSearchService {
     
    }
 
-  gitSearch = (query: string, page: number): Promise<GitSearch> => {
+  gitSearch = (query: string, page: number, origin: string): Promise<GitSearch> => {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': 'token ' + this.APIToken;
+        'Authorization': 'token ' + this.APIToken
       })
     };
+    //console.log(origin);
     let promise = new Promise<GitSearch>((resolve, reject) => {
       if (this.cachedValues[query]) {
         resolve(this.cachedValues[query]);
@@ -43,13 +44,19 @@ export class GitSearchService {
     return promise;
   }
 
-  gitSearchUsers = (query: string): Promise<GitUsers> => {
+  gitSearchUsers = (query: string, page:number): Promise<GitUsers> => {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'token ' + this.APIToken
+      })
+    };
     let promise = new Promise<GitUsers>((resolve, reject) => {
       if (this.cachedValues[query]) {
         resolve(this.cachedValues[query]);
       }
       else {
-        this.http.get('https://api.github.com/search/users?q=' + query)
+        query = query + "&page=" + page.toString();
+        this.http.get('https://api.github.com/search/users?q=' + query, httpOptions)
           .toPromise()
           .then( (response) => {
             console.log(response);

@@ -12,13 +12,11 @@
     <ul class="list">
       <li [ngClass]="{'silver': (i % 2 === 0), 'white': (i % 2 !== 0)}" class="list_item" *ngFor="let result of searchResults.items; index as i;">
         <a [href]="result.html_url" target="_blank">
-          <img class="avatar" [src]="result.owner.avatar_url" />
-          <h4 class="title">{{ result.name }} {{ result.full_name }}
-            <small>by {{result.owner.login | uppercase}}</small>
+          <img class="avatar" [src]="result.avatar_url" />
+          <h4 class="title">{{ result.login }}
+            <small>score {{result.score}}</small>
           </h4>
         </a>
-        <p class="description">{{result.description}}</p>
-        <p>Created On: {{result.created_at | date:'fullDate'}}</p>
       </li>
     </ul>
   </div>

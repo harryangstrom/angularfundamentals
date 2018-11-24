@@ -8,6 +8,7 @@ import { GitSearchService } from './git-search.service';
 import { GitSearchComponent } from './git-search/git-search.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { GitSearchUsersComponent } from './git-search-users/git-search-users.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -17,9 +18,19 @@ const appRoutes: Routes = [
     redirectTo: '/search/angular',
     pathMatch: 'full'
   },
+  { path: 'searchUsers',
+    redirectTo: '/searchUsers/harryangstrom',
+    pathMatch: 'full'
+  },
   { path: 'search/:query',
     component: GitSearchComponent,
-    data: { title: 'Git Search' }
+    data: { title: 'Git Search',
+            origin: 'repositories' }
+  },
+  { path: 'searchUsers/:query',
+    component: GitSearchUsersComponent,
+    data: { title: 'Git User Search',
+            origin: 'users' }
   },
   { path: '**',
     component: NotFoundComponent 
@@ -31,7 +42,8 @@ const appRoutes: Routes = [
     AppComponent,
     GitSearchComponent,
     HomePageComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    GitSearchUsersComponent
   ],
   imports: [
     BrowserModule,

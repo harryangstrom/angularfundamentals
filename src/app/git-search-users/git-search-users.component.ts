@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { GitSearch } from '../git-search';
+import { GitUsers } from '../git-users';
 import { GitSearchService } from '../git-search.service';
-//import { GitUsers } from '../git-users';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
+
 @Component({
-  selector: 'app-git-search',
-  templateUrl: './git-search.component.html',
-  styleUrls: ['./git-search.component.css']
+  selector: 'app-git-search-users',
+  templateUrl: './git-search-users.component.html',
+  styleUrls: ['./git-search-users.component.css']
 })
-
-
-export class GitSearchComponent implements OnInit {
-  searchResults: (GitSearch);
+export class GitSearchUsersComponent implements OnInit {
+  searchResults: (GitUsers);
   searchQuery: string;
   title: string;
   origin: string;
@@ -22,9 +20,8 @@ export class GitSearchComponent implements OnInit {
   maxPage: number;
   nextPage: boolean = true;
 
-
   constructor(
-    private GitSearchService: GitSearchService, 
+    private GitSearchService: GitSearchService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -32,38 +29,16 @@ export class GitSearchComponent implements OnInit {
     this.route.paramMap.subscribe( (params: ParamMap) => {
       this.searchQuery = params.get('query');
       this.displayQuery = this.searchQuery;
-      this.gitSearch();      
+      this.gitSearch();
     })
-/*     this.GitSearchService.gitSearch('angular')
-      .then((response) => {
-        this.searchResults = response;
-        console.log("r: ", response);
-        //alert("Total Libraries Found: " + response.total_count);
-      }, (error) => {
-        //console.log("e: ", error);
-        alert("Error: " + error.statusText);
-      }
-    ) */
     this.route.data.subscribe( (result) => {
       this.title = result.title;
       this.origin = result.origin;
-      console.log(this.title);
-      console.log(this.origin);
     })
-
-/*     this.GitSearchService.gitSearchUsers('harryangstrom')
-    .then((response) => {
-      console.log("r: ", response);
-      alert("Total Users Found: " + response.total_count);
-    }, (error) => {
-      //console.log("e: ", error);
-      alert("Error: " + error.statusText);
-    }
-  ) */
   }
-  
+
   gitSearch = () => {
-    this.GitSearchService.gitSearch(this.searchQuery, this.page, this.origin)
+    this.GitSearchService.gitSearchUsers(this.searchQuery, this.page)
       .then( (response) => {
         this.searchResults = response;
         this.totalEntries = response.total_count;
@@ -78,7 +53,7 @@ export class GitSearchComponent implements OnInit {
   sendQuery = () => {
     this.searchResults = null;
     this.page = 1;
-    this.router.navigate(['/search/' + this.searchQuery]);
+    this.router.navigate(['/searchUsers/' + this.searchQuery]);
   }
 
   keyUpFunction(e) {
@@ -102,4 +77,5 @@ export class GitSearchComponent implements OnInit {
       this.gitSearch();
     };
   }
+
 }
