@@ -15,7 +15,7 @@
     <button (click)="previous()" *ngIf="page !== 1">Previous</button>
     <button (click)="next()" *ngIf="nextPage">Next</button>
   <div *ngIf="searchResults.total_count !== 0; else elseBlock2">
-    <p class="many_results" *ngIf="searchResults.total_count > 1000">Many results. Please, restrict your search.</p>
+    <p class="many_result" *ngIf="searchResults.total_count > 1000">Many results. Please, restrict your search.</p>
     <h3 class="total">Total Results: {{searchResults.total_count}}</h3>
     <ul class="list">
       <li [ngClass]="{'silver': (i % 2 === 0), 'white': (i % 2 !== 0)}" class="list_item" *ngFor="let result of searchResults.items; index as i;">
