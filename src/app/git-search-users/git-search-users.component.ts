@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { GitUsers } from '../git-users';
 import { GitSearchService } from '../git-search.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-
+import { AdvancedSearchUsersModel } from '../advanced-search-users-model'
 
 @Component({
   selector: 'app-git-search-users',
@@ -26,12 +26,16 @@ export class GitSearchUsersComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) { }
 
+  model: AdvancedSearchUsersModel = new AdvancedSearchUsersModel('', '', '', '', null); // query, language?, type?, repos?, followers?
+  modelKeys = Object.keys(this.model);
+    
   ngOnInit() {
     this.route.paramMap.subscribe( (params: ParamMap) => {
       this.searchQuery = params.get('query');
       this.displayQuery = this.searchQuery;
       this.gitSearch();
     })
+    this.model.q = this.searchQuery;
     this.route.data.subscribe( (result) => {
       this.title = result.title;
       this.origin = result.origin;
@@ -54,6 +58,28 @@ export class GitSearchUsersComponent implements OnInit {
   sendQuery = () => {
     this.searchResults = null;
     this.page = 1;
+    let search: string = this.model.q;
+    let params: string = "";
+    this.modelKeys.forEach( (elem) => {
+      if (elem === 'q') {
+        return false;
+      }
+      if (this.model[elem]) {
+        params += '+' + elem + ':' + this.model[elem];
+      }
+    })
+    this.searchQuery = search;
+    if (params !== '') {
+      this.searchQuery = search + params;
+    }
+    this.displayQuery = this.searchQuery;
+    //this.gitSearch();
+    this.router.navigate(['/search/' + this.searchQuery]);
+  }
+  
+/*   sendQuery = () => {
+    this.searchResults = null;
+    this.page = 1;
     this.router.navigate(['/searchUsers/' + this.searchQuery]);
   }
 
@@ -61,7 +87,7 @@ export class GitSearchUsersComponent implements OnInit {
     if(e.keyCode ==13) {
       this.sendQuery();
     }
-  }
+  } */
 
   next() {
     if (this.page < this.maxPage) {

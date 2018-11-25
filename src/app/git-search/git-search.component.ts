@@ -3,6 +3,7 @@ import { GitSearch } from '../git-search';
 import { GitSearchService } from '../git-search.service';
 //import { GitUsers } from '../git-users';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { AdvancedSearchModel } from '../advanced-search-model';
 
 @Component({
   selector: 'app-git-search',
@@ -28,12 +29,19 @@ export class GitSearchComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) { }
 
+  model: AdvancedSearchModel = new AdvancedSearchModel('', '', '', null, null, ''); // query, language?, user?, size?, stars?, topic?
+  modelKeys = Object.keys(this.model);
+
   ngOnInit() {
     this.route.paramMap.subscribe( (params: ParamMap) => {
       this.searchQuery = params.get('query');
       this.displayQuery = this.searchQuery;
+      console.log("Model: ", this.model);
+      console.log("Modelkeys: ", this.modelKeys);
+      console.log("Page: ", this.page);
       this.gitSearch();      
     })
+    this.model.q = this.searchQuery; //inicializa el campo 'q' desde la URI, solo una vez, no subscripción
 /*     this.GitSearchService.gitSearch('angular')
       .then((response) => {
         this.searchResults = response;
@@ -75,17 +83,39 @@ export class GitSearchComponent implements OnInit {
       });
   }
 
-  sendQuery = () => {
+/*   sendQuery = () => {
     this.searchResults = null;
     this.page = 1;
     this.router.navigate(['/search/' + this.searchQuery]);
+  } */
+
+  sendQuery = () => {
+    this.searchResults = null;
+    this.page = 1;
+    let search: string = this.model.q;
+    let params: string = "";
+    this.modelKeys.forEach( (elem) => {
+      if (elem === 'q') {
+        return false;
+      }
+      if (this.model[elem]) {
+        params += '+' + elem + ':' + this.model[elem];
+      }
+    })
+    this.searchQuery = search;
+    if (params !== '') {
+      this.searchQuery = search + params;
+    }
+    this.displayQuery = this.searchQuery;
+    //this.gitSearch();
+    this.router.navigate(['/search/' + this.searchQuery]);
   }
 
-  keyUpFunction(e) {
+/*   keyUpFunction(e) {
     if(e.keyCode ==13) {
       this.sendQuery();
     }
-  }
+  } */
 
   next() {
     if (this.page < this.maxPage) {
