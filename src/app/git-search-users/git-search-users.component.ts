@@ -73,8 +73,8 @@ export class GitSearchUsersComponent implements OnInit {
       this.searchQuery = search + params;
     }
     this.displayQuery = this.searchQuery;
-    //this.gitSearch();
-    this.router.navigate(['/search/' + this.searchQuery]);
+    this.gitSearch();
+    //this.router.navigate(['/search/' + this.searchQuery]);
   }
   
 /*   sendQuery = () => {

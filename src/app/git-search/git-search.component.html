@@ -38,7 +38,8 @@
   <button (click)="previous()" *ngIf="page !== 1">Previous</button>
   <button (click)="next()" *ngIf="nextPage">Next</button>
 </div>
-<ng-template #elseBlock>Loading...</ng-template>
+<ng-template #elseBlock>Loading...  {{searchQuery}}</ng-template>
 <ng-template #elseBlock2>
   <h2 class="title">No results...</h2>
+  <p>{{searchQuery}}</p>
 </ng-template>

@@ -24,6 +24,7 @@ export class GitSearchService {
       })
     };
     //console.log(origin);
+    console.log("CachedVales: ", this.cachedValues);
     let promise = new Promise<GitSearch>((resolve, reject) => {
       if (this.cachedValues[query]) {
         resolve(this.cachedValues[query]);
@@ -34,6 +35,7 @@ export class GitSearchService {
           .toPromise()
           .then( (response) => {
             console.log(response);
+            this.cachedValues[query] = response as GitSearch;
             resolve(response as GitSearch);
           }, (error) => {
             console.log(error);
@@ -60,6 +62,7 @@ export class GitSearchService {
           .toPromise()
           .then( (response) => {
             console.log(response);
+            this.cachedValues[query] = response as GitUsers;
             resolve(response as GitUsers);
           }, (error) => {
             console.log(error);

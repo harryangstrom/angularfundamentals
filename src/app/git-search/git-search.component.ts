@@ -33,15 +33,18 @@ export class GitSearchComponent implements OnInit {
   modelKeys = Object.keys(this.model);
 
   ngOnInit() {
+    console.log("ejecuto ngOnInit");
     this.route.paramMap.subscribe( (params: ParamMap) => {
+      console.log("ejecuto route.paramMap subscribe");
       this.searchQuery = params.get('query');
+      this.model.q = this.searchQuery;
       this.displayQuery = this.searchQuery;
       console.log("Model: ", this.model);
       console.log("Modelkeys: ", this.modelKeys);
       console.log("Page: ", this.page);
       this.gitSearch();      
     })
-    this.model.q = this.searchQuery; //inicializa el campo 'q' desde la URI, solo una vez, no subscripción
+    //this.model.q = this.searchQuery; //inicializa el campo 'q' desde la URI, solo una vez, no subscripción
 /*     this.GitSearchService.gitSearch('angular')
       .then((response) => {
         this.searchResults = response;
@@ -107,8 +110,9 @@ export class GitSearchComponent implements OnInit {
       this.searchQuery = search + params;
     }
     this.displayQuery = this.searchQuery;
-    //this.gitSearch();
-    this.router.navigate(['/search/' + this.searchQuery]);
+    this.gitSearch();
+    console.log("búsqueda sendQuery ", this.searchQuery);
+    //this.router.navigate(['/search/' + this.searchQuery]);
   }
 
 /*   keyUpFunction(e) {
