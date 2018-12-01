@@ -8,11 +8,13 @@
     </a>
 </nav>
 <!-- <form (keyup) = "keyUpFunction($event)"> -->
-  <form (ngSubmit)="sendQuery()" [formGroup]="form">
+  <form #myForm="ngForm" (ngSubmit)="sendQuery()">
     <div *ngFor = "let key of modelKeys">
-      {{key}} <input placeholder="Enter {{key}} here" formControlName = "{{key}}"/>
+      {{key}} 
+      <input name="{{key}}" placeholder="Enter {{key}} here" [(ngModel)] = "model[key]" required *ngIf="key === 'q'" appNoSpecialChars/>
+      <input name="{{key}}" placeholder="Enter {{key}} here" [(ngModel)] = "model[key]" *ngIf="key !== 'q'" appNoSpecialChars/>
     </div>
-    <button type = 'submit' [disabled]="!form.valid">Submit</button>
+    <button type = 'submit' [disabled]="!myForm.valid">Submit</button>
   <!-- <input name="query" placeholder="Enter Search Here" [(ngModel)]="searchQuery"/> -->
   <!-- <button (click)="sendQuery()">Submit</button> -->
 </form>

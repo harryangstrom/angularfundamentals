@@ -9,6 +9,7 @@ import { GitSearchComponent } from './git-search/git-search.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { GitSearchUsersComponent } from './git-search-users/git-search-users.component';
+import { NoSpecialCharsDirective } from './no-special-chars.directive';
 
 const appRoutes: Routes = [
   { path: '',
@@ -46,7 +47,8 @@ const appRoutes: Routes = [
     GitSearchComponent,
     HomePageComponent,
     NotFoundComponent,
-    GitSearchUsersComponent
+    GitSearchUsersComponent,
+    NoSpecialCharsDirective
   ],
   imports: [
     BrowserModule,

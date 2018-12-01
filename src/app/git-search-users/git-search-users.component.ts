@@ -3,7 +3,6 @@ import { GitUsers } from '../git-users';
 import { GitSearchService } from '../git-search.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AdvancedSearchUsersModel } from '../advanced-search-users-model'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-git-search-users',
@@ -21,26 +20,11 @@ export class GitSearchUsersComponent implements OnInit {
   page: number = 1;
   maxPage: number;
   nextPage: boolean = true;
-  form: FormGroup;
-  formControls = {};
-  
+
   constructor(
     private GitSearchService: GitSearchService,
     private route: ActivatedRoute,
-    private router: Router) {
-      this.modelKeys.forEach( (key) => {
-        let validators = [];
-        if (key === 'q') {
-          validators.push(Validators.required);
-        }
-        if (key === 'stars') {
-          validators.push(Validators.maxLength(4));
-        }
-        validators.push(this.noSpecialChars);
-        this.formControls[key] = new FormControl(this.model[key], validators);
-      })
-      this.form = new FormGroup(this.formControls);
-    }
+    private router: Router) { }
 
   model: AdvancedSearchUsersModel = new AdvancedSearchUsersModel('', '', '', '', null); // query, language?, type?, repos?, followers?
   modelKeys = Object.keys(this.model);
@@ -74,14 +58,14 @@ export class GitSearchUsersComponent implements OnInit {
   sendQuery = () => {
     this.searchResults = null;
     this.page = 1;
-    let search: string = this.form.value['q'];
+    let search: string = this.model.q;
     let params: string = "";
     this.modelKeys.forEach( (elem) => {
       if (elem === 'q') {
         return false;
       }
-      if (this.form.value[elem]) {
-        params += '+' + elem + ':' + this.form.value[elem];
+      if (this.model[elem]) {
+        params += '+' + elem + ':' + this.model[elem];
       }
     })
     this.searchQuery = search;
@@ -120,15 +104,5 @@ export class GitSearchUsersComponent implements OnInit {
       this.gitSearch();
     };
   }
-
-  noSpecialChars(c: FormControl) {
-    let REGEXP = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/);
-
-    return REGEXP.test(c.value) ? {
-        validateEmail: {
-        valid: false
-        }
-    } : null;
-}
 
 }
