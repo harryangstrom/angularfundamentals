@@ -10,12 +10,10 @@ export class NoSpecialCharsDirective implements Validator{
   constructor() { }
   validate(c: FormControl): ValidationErrors {
     const hasSpecialChars = /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/.test(c.value);
-    const message = {
-      'hasSpecialChars': {
-        'message': 'No Special Characters Allowed'
-      }
+    const noSpecialChars = {
+      noSpecialChars: true
     };
-    return hasSpecialChars ? message : null;
+    return hasSpecialChars ? noSpecialChars : null;
   }
 
 }

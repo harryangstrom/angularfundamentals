@@ -5,6 +5,10 @@
   font-size:16px;
   color: red;
 }
+.error {
+  font-size:16px;
+  color: red;
+}
 .list {
   list-style-type: none;
 }
@@ -35,7 +39,7 @@
   background-color: white;
 }
 
-.ng-valid:not(form)  {
+.ng-valid  {
   border: 2px solid #42A948; /* green */
 }
 
