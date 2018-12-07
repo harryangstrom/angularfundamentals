@@ -72,7 +72,7 @@ export class GitSearchComponent implements OnInit {
     }
   ) */
   }
-  
+   //Se comenta el siguiente bloque para que no falle la compilación por los observables de GitSearchService.gitSearch
   gitSearch = () => {
     this.GitSearchService.gitSearch(this.searchQuery, this.page, this.origin)
       .then( (response) => {

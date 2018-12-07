@@ -24,7 +24,7 @@ export class GitSearchService {
     
    }
 
-  gitSearch = (query: string, page: number, origin: string): Observable<GitSearch> => {
+  gitSearch = (query: string, page?: number, origin?: string): Observable<GitSearch> => {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'token ' + this.APIToken
@@ -32,7 +32,7 @@ export class GitSearchService {
     };
     //console.log(origin);
     console.log("CachedValue: ", this.cachedValue);
-    query = query + "&page=" + page.toString();
+    //query = query + "&page=" + page.toString();
     this.search = this.http.get<GitSearch>('https://api.github.com/search/repositories?q=' + query, httpOptions);
     //this.cachedValue = query;
     return this.search;
