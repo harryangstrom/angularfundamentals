@@ -26,16 +26,23 @@
     <p class="many_results" *ngIf="searchResults.total_count > 1000">Many results. Please, restrict your search.</p>
     <h3 class="total">Total Results: {{searchResults.total_count}}</h3>
     <ul class="list">
-      <li [ngClass]="{'silver': (i % 2 === 0), 'white': (i % 2 !== 0)}" class="list_item" *ngFor="let result of searchResults.items; index as i;">
-        <a [href]="result.html_url" target="_blank">
-          <img class="avatar" [src]="result.owner.avatar_url" />
-          <h4 class="title">{{ result.name }} {{ result.full_name }}
-            <small>by {{result.owner.login | uppercase}}</small>
-          </h4>
-        </a>
-        <p class="description">{{result.description}}</p>
-        <p>Created On: {{result.created_at | date:'fullDate'}}</p>
-      </li>
+      <app-repository-display 
+        [searchResults]="searchResults.repositories" 
+        *ngIf="searchResults.repositories" 
+        [favorites]="favorites" 
+        (updateFavorites)="handleFavorite($event)" 
+        (removeFavorites)="remFavorite($event)"
+        >
+      </app-repository-display>
+      <app-code-display 
+        [searchResults]="searchResults.code" 
+        *ngIf="searchResults.code" 
+        [favorites]="favorites" 
+        (updateFavorites)="handleFavorite($event)"
+        (removeFavorites)="remFavorite($event)"
+        >
+      </app-code-display>
+
     </ul>
   </div>
   <button (click)="previous()" *ngIf="page !== 1">Previous</button>

@@ -16,7 +16,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 
 export class GitSearchComponent implements OnInit {
-  searchResults: GitSearch;
+  searchResults: UnifiedSearch;
   searchQuery: string;
   title: string;
   origin: string;
@@ -27,6 +27,7 @@ export class GitSearchComponent implements OnInit {
   nextPage: boolean = true;
   form: FormGroup;
   formControls = {};
+  favorites: Array<number> = [];
 
 
   constructor(
@@ -95,7 +96,7 @@ export class GitSearchComponent implements OnInit {
   gitSearch = () => {
     this.UnifiedSearchService.unifiedSearch(this.searchQuery)
       .subscribe( (response) => {
-        this.searchResults = response.repositories;
+        this.searchResults = response;
         console.log('unifiedResponse: ', response)
       }, (error) => {
         alert("Error: "+ error.statusText);
@@ -168,5 +169,16 @@ export class GitSearchComponent implements OnInit {
       return "number";
     }
     else return "text";
+  }
+
+  handleFavorite = (id) => {
+    this.favorites.push(id);
+    console.log(this.favorites);
+  }
+
+  remFavorite = (id) => {
+    let index = this.favorites.indexOf(id);
+    this.favorites.splice(index, 1);
+    console.log(this.favorites);
   }
 }
